@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suika / Watermelon Game Clone</title>
+  <meta property="og:title" content="Suika / Watermelon Game Clone" />
+  <meta property="og:image" content="https://tombofry.github.io/suika-game/screenshot.png" />
+  <style>
+    @import url(https://fonts.bunny.net/css?family=azeret-mono:400,700,900);
+
+    :root {
+      --col-bg: #FFD59D;
+      --col-bg-light: #FFDCAE;
+      --col-bg-lighter: #FFEEDB;
+      --col-primary: #FF5300;
+      --col-primary-dark: #FF2700;
+      --col-primary-light: #FF8800;
+      --col-shadow: rgba(0, 0, 0, 0.25);
+      --col-white: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      line-height: 1;
+    }
+
+    body {
+      background-color: var(--col-bg);
+      font-family: 'Azeret Mono', sans-serif;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      height: 100vh;
+    }
+
+    #game-canvas {
+      position: relative;
+    }
+
+    #game-ui {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      /* 클릭 차단 */
+      user-select: none;
+      font-weight: 700;
+      display: none;
+      transform-origin: top left;
+    }
+
+    #game-score {
+      position: absolute;
+      width: 100%;
+      border-bottom: 2px dotted #333;
+      font-size: 84px;
+      font-weight: 900;
+      padding-left: 16px;
+      color: var(--col-bg-lighter);
+      text-shadow:
+        3px 3px 0 var(--col-primary),
+        -3px -3px 0 var(--col-primary),
+        -3px 3px 0 var(--col-primary),
+        3px -3px 0 var(--col-primary);
+    }
+
+    #game-end-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-items: center;
+      background-color: var(--col-shadow);
+    }
+
+    #game-end {
+      text-align: center;
+      padding: 32px 48px;
+      background-color: var(--col-bg-lighter);
+      border: 5px solid var(--col-primary);
+      box-shadow: 0 4px 32px var(--col-shadow);
+      border-radius: 32px;
+      margin: 0 auto;
+      pointer-events: initial;
+      /* 클릭 허용 */
+      user-select: initial;
+    }
+
+    #game-end-title {
+      font-weight: 700;
+      font-size: 48px;
+      color: var(--col-primary-dark);
+    }
+
+    #game-status {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 48px;
+      background-color: var(--col-bg-lighter);
+      display: flex;
+    }
+
+    .game-status-item {
+      display: flex;
+      line-height: 1;
+      align-items: center;
+      margin-right: 32px;
+    }
+
+    .game-status-label {
+      color: #666;
+      font-size: 16px;
+      margin-left: 24px;
+      margin-right: 8px;
+    }
+
+    #game-highscore-value {
+      color: #333;
+      font-weight: 700;
+      font-size: 24px;
+    }
+
+    #game-next-fruit {
+      width: 24px;
+      height: 24px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div id="game-canvas">
+      <div id="game-ui">
+        <p id="game-score"></p>
+
+        <div id="game-end-container">
+          <div id="game-end">
+            <div id="game-end-title">Game Over!</div>
+
+            <!-- 최종 점수 표시 -->
+            <div id="final-score-container" style="margin:16px 0; font-size:24px;">
+              당신의 점수: <span id="final-score">0</span>점
+            </div>
+
+            <!-- 닉네임 입력 & 저장 버튼 -->
+            <div id="game-over-inputs" style="display:flex; gap:8px; margin-bottom:16px;">
+              <input id="player-nickname" type="text" placeholder="닉네임을 입력하세요"
+                style="flex:1; padding:4px; font-size:16px;" />
+              <button id="save-score-btn" style="padding:4px 8px; font-size:16px;">
+                점수 저장
+              </button>
+            </div>
+
+            <!-- 다시하기 링크 -->
+            <a id="game-end-link" href="" style="display:inline-block; margin-top:8px; padding:8px 16px;
+                      background:var(--col-primary); color:var(--col-white);
+                      border-radius:8px; text-decoration:none;">
+              다시하기
+            </a>
+          </div>
+        </div>
+
+        <div id="game-status">
+          <div class="game-status-item">
+            <div class="game-status-label">Highscore</div>
+            <div id="game-highscore-value">0</div>
+          </div>
+          <div class="game-status-item">
+            <div class="game-status-label">Next</div>
+            <img id="game-next-fruit" src="./assets/img/circle0.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./matter.js"></script>
+  <script src="./index.js"></script>
+</body>
+
+</html>
